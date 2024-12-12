@@ -1,0 +1,32 @@
+ibgateway:
+  # Configuration des secrets
+  secret:
+    name: "ib-gateway-secrets"
+
+
+  # Configuration IB Gateway
+  ibgateway:
+    mode: "paper"
+    port: "4001"
+    apiPort: "4002"
+    timezone: "Europe/Paris"
+
+  # Configuration NoVNC
+  novnc:
+    enabled: true
+    image:
+      repository: theasp/novnc
+      tag: latest
+      pullPolicy: IfNotPresent
+    service:
+      type: ClusterIP
+      port: 6080
+    display:
+      width: "1280"
+      height: "720"
+
+  # Configuration VNC
+  vnc:
+    enabled: true
+    port: "5900"
+    password: "myVNCpass"
