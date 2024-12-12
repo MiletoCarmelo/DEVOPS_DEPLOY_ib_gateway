@@ -8,6 +8,9 @@ ibgateway:
     repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway
     tag: latest-arm64
     pullPolicy: Always
+
+  nodeSelector:
+    type: arm64  # Force l'utilisation d'un nœud ARM64
     
   ibgateway:
     mode: "live"
