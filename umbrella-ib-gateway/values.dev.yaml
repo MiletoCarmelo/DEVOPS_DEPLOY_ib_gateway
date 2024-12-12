@@ -1,17 +1,18 @@
 ibgateway:
+
   secret:
     name: "ib-gateway-secrets"  # Nom du secret créé par votre script
 
+  image:
+    repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway
+    tag: latest-arm64
+    pullPolicy: Always
+    
   ibgateway:
     mode: "paper"
     port: "4001"
     apiPort: "4002"
     timezone: "Europe/Paris"
-    
-    image:
-      repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway
-      tag: latest-arm64
-      pullPolicy: Always
 
     env:
       - name: TWS_USERID
