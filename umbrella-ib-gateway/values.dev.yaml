@@ -3,21 +3,24 @@ ibgateway:
   secret:
     name: "ib-gateway-secrets"
 
-
   # Configuration IB Gateway
   ibgateway:
     mode: "paper"
     port: "4001"
     apiPort: "4002"
     timezone: "Europe/Paris"
+    image:
+      repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway
+      tag: latest
+      pullPolicy: Always
 
   # Configuration NoVNC
   novnc:
     enabled: true
     image:
-      repository: theasp/novnc
+      repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway-novnc
       tag: latest
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
     service:
       type: ClusterIP
       port: 6080
