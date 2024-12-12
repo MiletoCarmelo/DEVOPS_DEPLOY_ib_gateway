@@ -1,30 +1,81 @@
 ibgateway:
-
   secret:
-    name: "ib-gateway-secrets"
+    name: "ib-gateway-secrets"  # Nom du secret créé par votre script
 
   ibgateway:
-    mode: "live"
+    mode: "paper"
     port: "4001"
     apiPort: "4002"
     timezone: "Europe/Paris"
+    
+    image:
+      repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway
+      tag: latest-arm64
+      pullPolicy: Always
 
-  # fait reférence à limage ibgateway
-  image:
-    repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway
-    tag: latest-arm64  # Spécifiez le tag pour ARM64
-    pullPolicy: Always
+    env:
+      - name: TWS_USERID
+        valueFrom:
+          secretKeyRef:
+            name: ib-gateway-secrets
+            key: username  # Correspond à la clé dans votre script
+      - name: TWS_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: ib-gateway-secrets
+            key: password  # Correspond à la clé dans votre script
+      - name: IB_ACCOUNT
+        valueFrom:
+          secretKeyRef:
+            name: ib-gateway-secrets
+            key: account  # Correspond à la clé dans votre script
+      - name: TRADING_MODE
+        value: "paper"
+      - name: TIME_ZONE
+        value: "Europe/Paris"
+      - name: TZ
+        value: "Europe/Paris"
+      - name: JAVA_HEAP_SIZE
+        value: "1024"
 
+    service:
+      ports:
+        - name: gateway
+          port: 4003
+          targetPort: 4003
+        - name: api
+          port: 4004
+          targetPort: 4004
+        - name: vnc
+          port: 5900
+          targetPort: 5900
 
   novnc:
     enabled: true
     image:
       repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway-novnc
-      tag: latest-arm64  # Spécifiez le tag pour ARM64
+      tag: latest-arm64
       pullPolicy: Always
+
+    env:
+      - name: DISPLAY_WIDTH
+        value: "1280"
+      - name: DISPLAY_HEIGHT
+        value: "720"
+      - name: VNC_PORT
+        value: "5900"
+      - name: VNC_HOST
+        value: "ib-gateway"
+      - name: VNC_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: ib-gateway-secrets
+            key: password
+
     service:
       type: ClusterIP
       port: 6080
+
     display:
       width: "1280"
       height: "720"
@@ -32,4 +83,3 @@ ibgateway:
   vnc:
     enabled: true
     port: "5900"
-    password: "myVNCpass"
