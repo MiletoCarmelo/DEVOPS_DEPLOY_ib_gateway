@@ -1,9 +1,10 @@
 ibgateway:
+
   secret:
     name: "ib-gateway-secrets"
 
   ibgateway:
-    mode: "paper"
+    mode: "live"
     port: "4001"
     apiPort: "4002"
     timezone: "Europe/Paris"
@@ -11,7 +12,7 @@ ibgateway:
   # fait reférence à limage ibgateway
   image:
     repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway
-    tag: latest
+    tag: latest-arm64  # Spécifiez le tag pour ARM64
     pullPolicy: Always
 
 
@@ -19,7 +20,7 @@ ibgateway:
     enabled: true
     image:
       repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway-novnc
-      tag: latest
+      tag: latest-arm64  # Spécifiez le tag pour ARM64
       pullPolicy: Always
     service:
       type: ClusterIP
