@@ -2,6 +2,7 @@ ibgateway:
 
   secret:
     name: "ib-gateway-secrets"  # Nom du secret créé par votre script
+    account: false  # Si vous avez une clé account dans votre secret
 
   image:
     repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway
@@ -9,11 +10,10 @@ ibgateway:
     pullPolicy: Always
     
   ibgateway:
-    mode: "paper"
+    mode: "live"
     port: "4001"
     apiPort: "4002"
     timezone: "Europe/Paris"
-
     env:
       - name: TWS_USERID
         valueFrom:
@@ -40,16 +40,20 @@ ibgateway:
         value: "1024"
 
     service:
+    # Configuration des ports
       ports:
         - name: gateway
           port: 4003
           targetPort: 4003
+          protocol: TCP
         - name: api
           port: 4004
           targetPort: 4004
+          protocol: TCP
         - name: vnc
           port: 5900
           targetPort: 5900
+          protocol: TCP
 
   novnc:
     enabled: true
