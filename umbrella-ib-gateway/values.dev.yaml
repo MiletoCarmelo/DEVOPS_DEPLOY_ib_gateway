@@ -34,7 +34,7 @@ ibgateway:
             name: ib-gateway-secrets
             key: account  # Correspond à la clé dans votre script
       - name: TRADING_MODE
-        value: "paper"
+        value: "live"
       - name: TIME_ZONE
         value: "Europe/Paris"
       - name: TZ
