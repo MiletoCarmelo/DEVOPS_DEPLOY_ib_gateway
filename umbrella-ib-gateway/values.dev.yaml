@@ -12,51 +12,50 @@ ibgateway:
   nodeSelector:
     type: arm64  # Force l'utilisation d'un nœud ARM64
     
-  ibgateway:
-    mode: "live"
-    port: "4001"
-    apiPort: "4002"
-    timezone: "Europe/Paris"
-    env:
-      - name: TWS_USERID
-        valueFrom:
-          secretKeyRef:
-            name: ib-gateway-secrets
-            key: username  # Correspond à la clé dans votre script
-      - name: TWS_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: ib-gateway-secrets
-            key: password  # Correspond à la clé dans votre script
-      - name: IB_ACCOUNT
-        valueFrom:
-          secretKeyRef:
-            name: ib-gateway-secrets
-            key: account  # Correspond à la clé dans votre script
-      - name: TRADING_MODE
-        value: "live"
-      - name: TIME_ZONE
-        value: "Europe/Paris"
-      - name: TZ
-        value: "Europe/Paris"
-      - name: JAVA_HEAP_SIZE
-        value: "1024"
+  mode: "live"
+  port: "4001"
+  apiPort: "4002"
+  timezone: "Europe/Paris"
 
-    service:
-    # Configuration des ports
-      ports:
-        - name: gateway
-          port: 4003
-          targetPort: 4003
-          protocol: TCP
-        - name: api
-          port: 4004
-          targetPort: 4004
-          protocol: TCP
-        - name: vnc
-          port: 5900
-          targetPort: 5900
-          protocol: TCP
+  env:
+    - name: TWS_USERID
+      valueFrom:
+        secretKeyRef:
+          name: ib-gateway-secrets
+          key: username  # Correspond à la clé dans votre script
+    - name: TWS_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: ib-gateway-secrets
+          key: password  # Correspond à la clé dans votre script
+    - name: IB_ACCOUNT
+      valueFrom:
+        secretKeyRef:
+          name: ib-gateway-secrets
+          key: account  # Correspond à la clé dans votre script
+    - name: TRADING_MODE
+      value: "live"
+    - name: TIME_ZONE
+      value: "Europe/Paris"
+    - name: TZ
+      value: "Europe/Paris"
+    - name: JAVA_HEAP_SIZE
+      value: "1024"
+
+  # Configuration des ports
+  ports:
+    - name: gateway
+      port: 4003
+      targetPort: 4003
+      protocol: TCP
+    - name: api
+      port: 4004
+      targetPort: 4004
+      protocol: TCP
+    - name: vnc
+      port: 5900
+      targetPort: 5900
+      protocol: TCP
 
   novnc:
     enabled: true
