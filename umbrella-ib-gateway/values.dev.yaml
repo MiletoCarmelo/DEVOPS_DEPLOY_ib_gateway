@@ -33,16 +33,6 @@ ibgateway:
         secretKeyRef:
           name: ib-gateway-secrets
           key: IB_ACCOUNT  # Correspond à la clé dans votre script
-    - name: TRADING_MODE
-      valueFrom:
-        secretKeyRef:
-          name: ib-gateway-secrets
-          key: TRADING_MODE  # Correspond à la clé dans votre script
-     - name: BYPASS_WARNING
-      valueFrom:
-        secretKeyRef:
-          name: ib-gateway-secrets
-          key: BYPASS_WARNING  # Correspond à la clé dans votre script
     - name: TWS_SETTINGS_PATH
       value: "/config/ibgateway/Jts"       
     - name: TRADING_MODE
