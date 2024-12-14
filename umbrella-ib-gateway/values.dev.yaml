@@ -22,26 +22,39 @@ ibgateway:
       valueFrom:
         secretKeyRef:
           name: ib-gateway-secrets
-          key: username  # Correspond à la clé dans votre script
+          key: TWS_USERID  # Correspond à la clé dans votre script
     - name: TWS_PASSWORD
       valueFrom:
         secretKeyRef:
           name: ib-gateway-secrets
-          key: password  # Correspond à la clé dans votre script
+          key: TWS_PASSWORD  # Correspond à la clé dans votre script
     - name: IB_ACCOUNT
       valueFrom:
         secretKeyRef:
           name: ib-gateway-secrets
-          key: account  # Correspond à la clé dans votre script
+          key: IB_ACCOUNT  # Correspond à la clé dans votre script
+    - name: TRADING_MODE
+      valueFrom:
+        secretKeyRef:
+          name: ib-gateway-secrets
+          key: TRADING_MODE  # Correspond à la clé dans votre script
+     - name: BYPASS_WARNING
+      valueFrom:
+        secretKeyRef:
+          name: ib-gateway-secrets
+          key: BYPASS_WARNING  # Correspond à la clé dans votre script
+    - name: TWS_SETTINGS_PATH
+      value: "/config/ibgateway/Jts"       
     - name: TRADING_MODE
       value: "live"
+    - name: BYPASS_WARNING
+      value: "yes"
     - name: TIME_ZONE
       value: "Europe/Paris"
     - name: TZ
       value: "Europe/Paris"
     - name: JAVA_HEAP_SIZE
       value: "1024"
-
   # Configuration des ports
   ports:
     - name: gateway

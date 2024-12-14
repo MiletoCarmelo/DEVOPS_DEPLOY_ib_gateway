@@ -40,6 +40,8 @@ if [ ! -f "$ENV_FILE" ]; then
     echo "IB_ACCOUNT=votre_compte"
     echo "NAMESPACE=namespace_k3s"
     echo "SECRET_NAME=name_secret_for_k3s_ibgateway"
+    echo "BYPASS_WARNING=BYPASS_WARNING"
+    echo "TWS_SETTINGS_PATH=TWS_SETTINGS_PATH"
     exit 1
 fi
 
@@ -64,6 +66,7 @@ missing_vars=()
 [ -z "$IB_ACCOUNT" ] && missing_vars+=("IB_ACCOUNT")
 [ -z "$NAMESPACE" ] && missing_vars+=("NAMESPACE")
 [ -z "$SECRET_NAME" ] && missing_vars+=("SECRET_NAME")
+
 
 if [ ${#missing_vars[@]} -ne 0 ]; then
     log "error" "Variables manquantes dans $ENV_FILE:"
@@ -93,9 +96,9 @@ fi
 log "info" "Création du secret ${SECRET_NAME}..."
 if kubectl create secret generic "${SECRET_NAME}" \
     -n "${NAMESPACE}" \
-    --from-literal=username="${TWS_USERID}" \
-    --from-literal=password="${TWS_PASSWORD}" \
-    --from-literal=account="${IB_ACCOUNT}" \
+    --from-literal=TWS_USERID="${TWS_USERID}" \
+    --from-literal=TWS_PASSWORD="${TWS_PASSWORD}" \
+    --from-literal=IB_ACCOUNT="${IB_ACCOUNT}" \
     --dry-run=client -o yaml | kubectl apply -f - ; then
     log "success" "Secret ${SECRET_NAME} créé avec succès"
 else
