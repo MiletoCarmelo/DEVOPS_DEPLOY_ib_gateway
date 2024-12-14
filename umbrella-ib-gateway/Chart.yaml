@@ -25,6 +25,6 @@ appVersion: "1.0.0"
 
 dependencies:
   - name: generic-ib-gateway-backend
-    version: 0.1.3
+    version: 0.1.4
     repository: https://raw.githubusercontent.com/MiletoCarmelo/DEVOPS_HELM_generic_ib_gateway/github-pages
     alias: ibgateway
