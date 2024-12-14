@@ -1,0 +1,8 @@
+# templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ib-gateway-config
+data:
+  jts.ini.tmpl: {{ .Files.Get "config/ibgateway/jts.ini.tmpl" | quote }}
+  config.ini.tmpl: {{ .Files.Get "config/ibc/config.ini.tmpl" | quote }}
