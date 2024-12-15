@@ -41,10 +41,18 @@ ibgateway:
 
   # Images spécifiques pour les services additionnels
   novnc:
+    enabled: true
     image:
       repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway-novnc
       tag: latest-arm64
       pullPolicy: Always
+    service:
+      type: NodePort
+      port: 6080
+
+  vnc:
+    enabled: true
+    password: "1234" 
 
   pythonService:
     image:
