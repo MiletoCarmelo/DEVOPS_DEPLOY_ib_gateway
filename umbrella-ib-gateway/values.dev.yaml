@@ -1,102 +1,39 @@
 ibgateway:
-
-  secret:
-    name: "ib-gateway-secrets"  # Nom du secret créé par votre script
-    account: false  # Si vous avez une clé account dans votre secret
+  # Spécifique à l'environnement
+  nodeSelector:
+    type: arm64
 
   image:
     repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway
     tag: latest-arm64
     pullPolicy: Always
 
-  nodeSelector:
-    type: arm64  # Force l'utilisation d'un nœud ARM64
-    
-  mode: "live"
-  port: "4001"
-  apiPort: "4002"
-  timezone: "Europe/Paris"
-
+  # Surcharge des variables d'environnement pour l'authentification
   env:
     - name: TWS_USERID
       valueFrom:
         secretKeyRef:
           name: ib-gateway-secrets
-          key: TWS_USERID  # Correspond à la clé dans votre script
+          key: TWS_USERID
     - name: TWS_PASSWORD
       valueFrom:
         secretKeyRef:
           name: ib-gateway-secrets
-          key: TWS_PASSWORD  # Correspond à la clé dans votre script
+          key: TWS_PASSWORD
     - name: IB_ACCOUNT
       valueFrom:
         secretKeyRef:
           name: ib-gateway-secrets
-          key: IB_ACCOUNT  # Correspond à la clé dans votre script
-    - name: TWS_SETTINGS_PATH
-      value: "/config/ibgateway/Jts"       
-    - name: TRADING_MODE
-      value: "live"
-    - name: BYPASS_WARNING
-      value: "yes"
-    - name: TIME_ZONE
-      value: "Europe/Paris"
-    - name: TZ
-      value: "Europe/Paris"
-    - name: JAVA_HEAP_SIZE
-      value: "1024"
+          key: IB_ACCOUNT
 
-  # Configuration des ports
-  ports:
-    - name: gateway
-      port: 4003
-      targetPort: 4003
-      protocol: TCP
-    - name: api
-      port: 4004
-      targetPort: 4004
-      protocol: TCP
-    - name: vnc
-      port: 5900
-      targetPort: 5900
-      protocol: TCP
-
+  # Images spécifiques pour les services additionnels
   novnc:
-    enabled: true
     image:
       repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway-novnc
       tag: latest-arm64
       pullPolicy: Always
 
-    env:
-      - name: DISPLAY_WIDTH
-        value: "1280"
-      - name: DISPLAY_HEIGHT
-        value: "720"
-      - name: VNC_PORT
-        value: "5900"
-      - name: VNC_HOST
-        value: "ib-gateway"
-      - name: VNC_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: ib-gateway-secrets
-            key: password
-
-    service:
-      type: ClusterIP
-      port: 6080
-
-    display:
-      width: "1280"
-      height: "720"
-
-  vnc:
-    enabled: true
-    port: "5900"
-
   pythonService:
-    enabled: true
     image:
       repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway-python-service
       tag: latest-arm64
