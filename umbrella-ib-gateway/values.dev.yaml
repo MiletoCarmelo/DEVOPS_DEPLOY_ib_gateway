@@ -95,7 +95,7 @@ ibgateway:
     enabled: true
     port: "5900"
 
-  python:
+  pythonService:
     enabled: true
     image:
       repository: ghcr.io/miletocarmelo/devops_helm_generic_ib_gateway/ib-gateway-python-service
