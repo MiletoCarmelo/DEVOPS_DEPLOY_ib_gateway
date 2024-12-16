@@ -41,8 +41,15 @@ ibgateway:
       valueFrom:
         secretKeyRef:
           name: ib-gateway-secrets
-          key: VNC_SERVER_PASSWORD  
-
+          key: VNC_SERVER_PASSWORD 
+    
+    # Ajoutez ces variables d'environnement
+    - name: VNC_DISPLAY
+      value: ":1"
+    - name: VNC_SERVER_ARGS
+      value: "-listen 0.0.0.0 -display :1 -forever -shared -noipv6"
+    - name: DISPLAY 
+      value: ":1"
 
   # Images spécifiques pour les services additionnels
   novnc:
